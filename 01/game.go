@@ -8,9 +8,7 @@ import (
 	"unicode"
 )
 
-var timeout = 10 * time.Second
-
-func PlayGame(input *os.File, quizQuestions []*QuizQuestion) (result int) {
+func PlayGame(input *os.File, quizQuestions []*QuizQuestion, quizDuration time.Duration) (result int) {
 	if input == nil {
 		input = os.Stdin
 	}
@@ -35,7 +33,7 @@ func PlayGame(input *os.File, quizQuestions []*QuizQuestion) (result int) {
 			} else {
 				return result
 			}
-		case <-time.After(timeout):
+		case <-time.After(quizDuration):
 			if ch != nil {
 				close(ch)
 			}

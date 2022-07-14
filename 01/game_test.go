@@ -50,9 +50,6 @@ func TestPlayGame(t *testing.T) {
 		},
 	}
 
-	tmpTimeout := timeout
-	timeout = 1 * time.Second
-
 	for _, testRecord := range testRecords {
 		in, err := ioutil.TempFile("", "")
 		if err != nil {
@@ -71,13 +68,9 @@ func TestPlayGame(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		actualResult := PlayGame(in, testRecord.quizQuestions)
+		actualResult := PlayGame(in, testRecord.quizQuestions, 1 * time.Second)
 
 		in.Close()
 		assert.Equal(t, testRecord.expectedResult, actualResult, "expected identical outcome")
 	}
-
-	t.Cleanup(func() {
-		timeout = tmpTimeout
-	})
 }
